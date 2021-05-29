@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: show-date
+spec:
+  ttlSecondsAfterFinished: 60
+  backoffLimit: 2 # 将 Job 标记为失败状态之前的重试次数
+  activeDeadlineSeconds: 100 # Job 启动后最大执行时间
+  template:
+    # activeDeadlineSeconds: 100
+    spec:
+      containers:
+      - name: show-date
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "date; sleep 1; date"]
+      restartPolicy: Never
